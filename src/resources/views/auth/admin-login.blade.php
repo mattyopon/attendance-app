@@ -1,0 +1,31 @@
+@extends('layouts.admin')
+
+@section('title', '管理者ログイン - 勤怠管理アプリ')
+
+@section('content')
+<div class="auth">
+    <h2 class="auth__title">管理者ログイン</h2>
+
+    <form action="{{ route('admin.login') }}" method="POST">
+        @csrf
+
+        <div class="form__group">
+            <label class="form__label" for="email">メールアドレス</label>
+            <input class="form__input" type="email" id="email" name="email" value="{{ old('email') }}">
+            @error('email')
+            <p class="form__error">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="form__group">
+            <label class="form__label" for="password">パスワード</label>
+            <input class="form__input" type="password" id="password" name="password">
+            @error('password')
+            <p class="form__error">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <button class="form__button" type="submit">管理者ログイン</button>
+    </form>
+</div>
+@endsection

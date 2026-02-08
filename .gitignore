@@ -1,0 +1,16 @@
+# IDE
+/.idea
+/.vscode
+/.fleet
+/.zed
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 要件シート（個人情報含む）
+*.xlsx
+
+# docs build artifacts
+docs/output/
+docs/write_review.js
