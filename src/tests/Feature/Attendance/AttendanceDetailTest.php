@@ -47,10 +47,12 @@ class AttendanceDetailTest extends TestCase
         $user = $this->createUser();
         $attendance = $this->createAttendance($user);
 
-        $response = $this->actingAs($user)->get('/attendance/' . $attendance->id);
+        $response = $this->actingAs($user)->get('/attendance/detail/' . $attendance->id);
 
         $response->assertStatus(200);
         $response->assertSee('勤怠詳細');
+        $response->assertSee($user->name);
+        $response->assertSee($attendance->date->format('Y年m月d日'));
         $response->assertSee('09:00');
         $response->assertSee('18:00');
     }
@@ -64,7 +66,7 @@ class AttendanceDetailTest extends TestCase
         $otherUser = $this->createUser();
         $attendance = $this->createAttendance($otherUser);
 
-        $response = $this->actingAs($user)->get('/attendance/' . $attendance->id);
+        $response = $this->actingAs($user)->get('/attendance/detail/' . $attendance->id);
 
         // AttendanceController::show()で user_id チェック、firstOrFail()なので404
         $response->assertStatus(404);
@@ -78,7 +80,7 @@ class AttendanceDetailTest extends TestCase
         $user = $this->createUser();
         $attendance = $this->createAttendance($user);
 
-        $response = $this->actingAs($user)->get('/attendance/' . $attendance->id);
+        $response = $this->actingAs($user)->get('/attendance/detail/' . $attendance->id);
 
         $response->assertStatus(200);
         $response->assertSee('09:00');
@@ -99,7 +101,7 @@ class AttendanceDetailTest extends TestCase
             'rest_end' => Carbon::yesterday()->setTime(13, 0, 0),
         ]);
 
-        $response = $this->actingAs($user)->get('/attendance/' . $attendance->id);
+        $response = $this->actingAs($user)->get('/attendance/detail/' . $attendance->id);
 
         $response->assertStatus(200);
         $response->assertSee('12:00');

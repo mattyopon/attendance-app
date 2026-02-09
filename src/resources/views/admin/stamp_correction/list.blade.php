@@ -4,13 +4,13 @@
 
 @section('content')
 <div class="page-header">
-    <h1 class="page-header__title">修正申請一覧</h1>
+    <h1 class="page-header__title">申請一覧</h1>
 </div>
 
 <div class="tabs">
-    <a href="{{ route('admin.stamp_correction.list', ['tab' => 'pending']) }}"
+    <a href="{{ route('stamp_correction.list', ['tab' => 'pending']) }}"
        class="tabs__item {{ $tab === 'pending' ? 'tabs__item--active' : '' }}">承認待ち</a>
-    <a href="{{ route('admin.stamp_correction.list', ['tab' => 'approved']) }}"
+    <a href="{{ route('stamp_correction.list', ['tab' => 'approved']) }}"
        class="tabs__item {{ $tab === 'approved' ? 'tabs__item--active' : '' }}">承認済み</a>
 </div>
 

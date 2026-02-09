@@ -21,23 +21,18 @@
         </div>
 
         <div class="detail__row">
-            <span class="detail__label">出勤</span>
+            <span class="detail__label">出勤・退勤</span>
             <span class="detail__value">
                 <input type="text" name="clock_in" class="detail__input"
                     value="{{ old('clock_in', $attendance->clock_in->format('H:i')) }}">
+                〜
+                <input type="text" name="clock_out" class="detail__input"
+                    value="{{ old('clock_out', $attendance->clock_out ? $attendance->clock_out->format('H:i') : '') }}">
             </span>
         </div>
         @error('clock_in')
         <p class="form__error">{{ $message }}</p>
         @enderror
-
-        <div class="detail__row">
-            <span class="detail__label">退勤</span>
-            <span class="detail__value">
-                <input type="text" name="clock_out" class="detail__input"
-                    value="{{ old('clock_out', $attendance->clock_out ? $attendance->clock_out->format('H:i') : '') }}">
-            </span>
-        </div>
         @error('clock_out')
         <p class="form__error">{{ $message }}</p>
         @enderror
@@ -61,6 +56,13 @@
             <p class="form__error">{{ $message }}</p>
             @enderror
             @endforeach
+        </div>
+
+        <div class="detail__row">
+            <span class="detail__label">備考</span>
+            <span class="detail__value">
+                <textarea name="reason" class="detail__textarea">{{ old('reason') }}</textarea>
+            </span>
         </div>
 
         <div class="detail__actions">

@@ -4,12 +4,12 @@
 
 @section('content')
 <div class="page-header">
-    <h1 class="page-header__title">勤怠一覧</h1>
+    <h1 class="page-header__title">{{ $date->format('Y年n月j日') }}の勤怠</h1>
 </div>
 
 <div class="date-nav">
     <a href="{{ route('admin.attendance.list', ['date' => $prevDate]) }}" class="date-nav__arrow">&lt; 前日</a>
-    <span class="date-nav__current">{{ $date->format('Y年m月d日') }}({{ ['日','月','火','水','木','金','土'][$date->dayOfWeek] }})</span>
+    <span class="date-nav__current">&#x1F4C5; {{ $date->format('Y/m/d') }}</span>
     <a href="{{ route('admin.attendance.list', ['date' => $nextDate]) }}" class="date-nav__arrow">翌日 &gt;</a>
 </div>
 

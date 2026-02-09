@@ -14,3 +14,7 @@ Thumbs.db
 # docs build artifacts
 docs/output/
 docs/write_review.js
+
+# Playwright browser data (contains auth cookies)
+scripts/.browser-data/
+scripts/node_modules/

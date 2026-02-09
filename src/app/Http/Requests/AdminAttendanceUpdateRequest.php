@@ -19,6 +19,7 @@ class AdminAttendanceUpdateRequest extends FormRequest
             'rests' => ['nullable', 'array'],
             'rests.*.rest_start' => ['nullable', 'date_format:H:i', 'required_with:rests.*.rest_end'],
             'rests.*.rest_end' => ['nullable', 'date_format:H:i', 'required_with:rests.*.rest_start'],
+            'reason' => ['required', 'string', 'max:1000'],
         ];
     }
 
@@ -33,6 +34,7 @@ class AdminAttendanceUpdateRequest extends FormRequest
             'rests.*.rest_start.required_with' => '休憩時間が不適切な値です',
             'rests.*.rest_end.date_format' => '休憩時間が不適切な値です',
             'rests.*.rest_end.required_with' => '休憩時間が不適切な値です',
+            'reason.required' => '備考を記入してください',
         ];
     }
 
@@ -56,6 +58,9 @@ class AdminAttendanceUpdateRequest extends FormRequest
                         $validator->errors()->add("rests.{$index}.rest_end", '休憩時間が不適切な値です');
                     }
                     if ($clockIn && $restStart < $clockIn) {
+                        $validator->errors()->add("rests.{$index}.rest_start", '休憩時間が不適切な値です');
+                    }
+                    if ($clockOut && $restStart >= $clockOut) {
                         $validator->errors()->add("rests.{$index}.rest_start", '休憩時間が不適切な値です');
                     }
                     if ($clockOut && $restEnd > $clockOut) {

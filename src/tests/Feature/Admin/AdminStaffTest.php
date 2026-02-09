@@ -79,7 +79,7 @@ class AdminStaffTest extends TestCase
         $this->createAttendance($user);
 
         $currentMonth = Carbon::now()->format('Y-m');
-        $response = $this->actingAs($admin)->get('/admin/staff/' . $user->id . '/attendance?month=' . $currentMonth);
+        $response = $this->actingAs($admin)->get('/admin/attendance/staff/' . $user->id . '?month=' . $currentMonth);
 
         $response->assertStatus(200);
         $response->assertSee($user->name);
@@ -99,7 +99,7 @@ class AdminStaffTest extends TestCase
         $prevMonth = Carbon::now()->subMonth()->format('Y-m');
         $nextMonth = Carbon::now()->addMonth()->format('Y-m');
 
-        $response = $this->actingAs($admin)->get('/admin/staff/' . $user->id . '/attendance?month=' . $currentMonth);
+        $response = $this->actingAs($admin)->get('/admin/attendance/staff/' . $user->id . '?month=' . $currentMonth);
 
         $response->assertStatus(200);
         $response->assertSee($prevMonth);
@@ -116,10 +116,26 @@ class AdminStaffTest extends TestCase
         $this->createAttendance($user);
 
         $currentMonth = Carbon::now()->format('Y-m');
-        $response = $this->actingAs($admin)->get('/admin/staff/' . $user->id . '/attendance/export?month=' . $currentMonth);
+        $response = $this->actingAs($admin)->get('/admin/attendance/staff/' . $user->id . '/export?month=' . $currentMonth);
 
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'text/csv; charset=utf-8');
+    }
+
+    /**
+     * R58: 「詳細」を押下すると、その日の勤怠詳細画面に遷移する
+     */
+    public function test_admin_staff_attendance_detail_link(): void
+    {
+        $admin = $this->createAdmin();
+        $user = $this->createUser();
+        $attendance = $this->createAttendance($user);
+
+        $currentMonth = Carbon::now()->format('Y-m');
+        $response = $this->actingAs($admin)->get('/admin/attendance/staff/' . $user->id . '?month=' . $currentMonth);
+
+        $response->assertStatus(200);
+        $response->assertSee(route('admin.attendance.show', $attendance->id));
     }
 
     /**

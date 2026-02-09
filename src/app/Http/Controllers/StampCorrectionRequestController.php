@@ -57,6 +57,11 @@ class StampCorrectionRequestController extends Controller
     public function list(Request $request)
     {
         $user = auth()->user();
+
+        if ($user->role === 1) {
+            return app(\App\Http\Controllers\Admin\AdminStampCorrectionRequestController::class)->list($request);
+        }
+
         $tab = $request->input('tab', 'pending');
         if (!in_array($tab, ['pending', 'approved'])) {
             $tab = 'pending';

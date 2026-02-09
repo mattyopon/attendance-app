@@ -69,7 +69,7 @@ class AdminStampCorrectionRequestController extends Controller
             ]);
         });
 
-        return redirect()->route('admin.stamp_correction.list')
+        return redirect()->route('stamp_correction.list')
             ->with('success', '修正申請を承認しました');
     }
 }

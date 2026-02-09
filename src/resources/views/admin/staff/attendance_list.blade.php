@@ -5,8 +5,6 @@
 @section('content')
 <div class="page-header">
     <h1 class="page-header__title">{{ $user->name }}さんの勤怠</h1>
-    <a href="{{ route('admin.staff.attendance.export', ['id' => $user->id, 'month' => $currentMonth]) }}"
-       class="export-button">CSV出力</a>
 </div>
 
 <div class="date-nav">
@@ -40,5 +38,10 @@
             @endforeach
         </tbody>
     </table>
+</div>
+
+<div style="text-align: right; margin-top: 20px;">
+    <a href="{{ route('admin.staff.attendance.export', ['id' => $user->id, 'month' => $currentMonth]) }}"
+       class="export-button">CSV出力</a>
 </div>
 @endsection

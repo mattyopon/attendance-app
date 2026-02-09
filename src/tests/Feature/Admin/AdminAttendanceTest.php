@@ -149,4 +149,90 @@ class AdminAttendanceTest extends TestCase
 
         $response->assertRedirect('/admin/login');
     }
+
+    /**
+     * R50: 出勤時間が退勤時間より後の場合エラー
+     */
+    public function test_admin_update_clock_in_after_clock_out_shows_error(): void
+    {
+        $admin = $this->createAdmin();
+        $user = $this->createUser();
+        $attendance = $this->createAttendance($user);
+
+        $response = $this->actingAs($admin)->put('/admin/attendance/' . $attendance->id, [
+            'clock_in' => '18:00',
+            'clock_out' => '09:00',
+            'reason' => 'テスト修正',
+        ]);
+
+        $response->assertSessionHasErrors(['clock_out']);
+        $errors = session('errors');
+        $this->assertEquals('出勤時間もしくは退勤時間が不適切な値です', $errors->first('clock_out'));
+    }
+
+    /**
+     * R51: 休憩開始時間が退勤時間より後の場合エラー
+     */
+    public function test_admin_update_rest_start_after_clock_out_shows_error(): void
+    {
+        $admin = $this->createAdmin();
+        $user = $this->createUser();
+        $attendance = $this->createAttendance($user);
+
+        $response = $this->actingAs($admin)->put('/admin/attendance/' . $attendance->id, [
+            'clock_in' => '09:00',
+            'clock_out' => '18:00',
+            'rests' => [
+                ['rest_start' => '19:00', 'rest_end' => '20:00'],
+            ],
+            'reason' => 'テスト修正',
+        ]);
+
+        $response->assertSessionHasErrors();
+        $errors = session('errors');
+        $this->assertEquals('休憩時間が不適切な値です', $errors->first('rests.0.rest_start'));
+    }
+
+    /**
+     * R52: 休憩終了時間が退勤時間より後の場合エラー
+     */
+    public function test_admin_update_rest_end_after_clock_out_shows_error(): void
+    {
+        $admin = $this->createAdmin();
+        $user = $this->createUser();
+        $attendance = $this->createAttendance($user);
+
+        $response = $this->actingAs($admin)->put('/admin/attendance/' . $attendance->id, [
+            'clock_in' => '09:00',
+            'clock_out' => '18:00',
+            'rests' => [
+                ['rest_start' => '12:00', 'rest_end' => '19:00'],
+            ],
+            'reason' => 'テスト修正',
+        ]);
+
+        $response->assertSessionHasErrors();
+        $errors = session('errors');
+        $this->assertEquals('休憩時間もしくは退勤時間が不適切な値です', $errors->first('rests.0.rest_end'));
+    }
+
+    /**
+     * R53: 備考欄が未入力の場合エラー
+     */
+    public function test_admin_update_reason_required(): void
+    {
+        $admin = $this->createAdmin();
+        $user = $this->createUser();
+        $attendance = $this->createAttendance($user);
+
+        $response = $this->actingAs($admin)->put('/admin/attendance/' . $attendance->id, [
+            'clock_in' => '09:00',
+            'clock_out' => '18:00',
+            'reason' => '',
+        ]);
+
+        $response->assertSessionHasErrors(['reason']);
+        $errors = session('errors');
+        $this->assertEquals('備考を記入してください', $errors->first('reason'));
+    }
 }

@@ -143,4 +143,50 @@ class AttendanceListTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee(route('attendance.show', $attendance->id));
     }
+
+    /**
+     * R25: 休憩時刻が勤怠一覧画面で確認できる
+     */
+    public function test_rest_time_is_displayed_in_attendance_list(): void
+    {
+        $user = $this->createUser();
+        $attendance = $this->createAttendance($user, [
+            'date' => Carbon::now()->format('Y-m-d'),
+            'clock_in' => Carbon::now()->setTime(9, 0, 0),
+            'clock_out' => Carbon::now()->setTime(18, 0, 0),
+            'status' => Attendance::STATUS_LEFT,
+        ]);
+
+        Rest::create([
+            'attendance_id' => $attendance->id,
+            'rest_start' => Carbon::now()->setTime(12, 0, 0),
+            'rest_end' => Carbon::now()->setTime(13, 0, 0),
+        ]);
+
+        $currentMonth = Carbon::now()->format('Y-m');
+        $response = $this->actingAs($user)->get('/attendance/list?month=' . $currentMonth);
+
+        $response->assertStatus(200);
+        $response->assertSee('1:00');
+    }
+
+    /**
+     * R27: 退勤時刻が勤怠一覧画面で確認できる
+     */
+    public function test_clock_out_time_is_displayed_in_attendance_list(): void
+    {
+        $user = $this->createUser();
+        $this->createAttendance($user, [
+            'date' => Carbon::now()->format('Y-m-d'),
+            'clock_in' => Carbon::now()->setTime(9, 0, 0),
+            'clock_out' => Carbon::now()->setTime(18, 0, 0),
+            'status' => Attendance::STATUS_LEFT,
+        ]);
+
+        $currentMonth = Carbon::now()->format('Y-m');
+        $response = $this->actingAs($user)->get('/attendance/list?month=' . $currentMonth);
+
+        $response->assertStatus(200);
+        $response->assertSee('18:00');
+    }
 }

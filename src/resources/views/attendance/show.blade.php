@@ -20,25 +20,20 @@
         </div>
 
         <div class="detail__row">
-            <span class="detail__label">出勤</span>
+            <span class="detail__label">出勤・退勤</span>
             <span class="detail__value">
                 <input type="text" name="clock_in" class="detail__input"
                     value="{{ old('clock_in', $attendance->clock_in->format('H:i')) }}"
+                    {{ $hasPendingCorrection ? 'disabled' : '' }}>
+                〜
+                <input type="text" name="clock_out" class="detail__input"
+                    value="{{ old('clock_out', $attendance->clock_out ? $attendance->clock_out->format('H:i') : '') }}"
                     {{ $hasPendingCorrection ? 'disabled' : '' }}>
             </span>
         </div>
         @error('clock_in')
         <p class="form__error">{{ $message }}</p>
         @enderror
-
-        <div class="detail__row">
-            <span class="detail__label">退勤</span>
-            <span class="detail__value">
-                <input type="text" name="clock_out" class="detail__input"
-                    value="{{ old('clock_out', $attendance->clock_out ? $attendance->clock_out->format('H:i') : '') }}"
-                    {{ $hasPendingCorrection ? 'disabled' : '' }}>
-            </span>
-        </div>
         @error('clock_out')
         <p class="form__error">{{ $message }}</p>
         @enderror
@@ -79,7 +74,7 @@
 
         <div class="detail__actions">
             @if($hasPendingCorrection)
-            <span class="badge badge--pending">承認待ちのため修正できません</span>
+            <p style="color: #e74c3c; text-align: right; margin-top: 16px;">＊承認待ちのため修正はできません。</p>
             @else
             <button type="submit" class="detail__button">修正</button>
             @endif

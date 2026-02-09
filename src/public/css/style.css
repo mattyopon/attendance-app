@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
-    background-color: #f5f5f5;
+    background-color: #eee;
     color: #333;
     line-height: 1.6;
 }
@@ -19,7 +19,7 @@ a {
 
 /* Header */
 .header {
-    background-color: #333;
+    background-color: #111;
     color: #fff;
     padding: 15px 30px;
     display: flex;
@@ -48,18 +48,19 @@ a {
     opacity: 0.8;
 }
 
-.header__nav button {
+.header__nav button,
+.header__nav .nav-logout-btn {
     background: none;
-    border: 1px solid #fff;
+    border: none;
     color: #fff;
     padding: 5px 15px;
     cursor: pointer;
     font-size: 14px;
-    border-radius: 3px;
 }
 
-.header__nav button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+.header__nav button:hover,
+.header__nav .nav-logout-btn:hover {
+    opacity: 0.8;
 }
 
 /* Main Content */
@@ -76,7 +77,6 @@ a {
     background: #fff;
     padding: 40px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .auth__title {
@@ -145,35 +145,43 @@ a {
 /* Attendance Stamp */
 .attendance {
     text-align: center;
-    padding: 40px 0;
+    padding: 60px 0;
 }
 
 .attendance__status {
-    font-size: 18px;
+    display: inline-block;
+    font-size: 16px;
     color: #666;
-    margin-bottom: 10px;
+    background-color: #ddd;
+    padding: 4px 20px;
+    border-radius: 20px;
+    margin-bottom: 16px;
 }
 
 .attendance__status--working {
-    color: #4CAF50;
+    color: #666;
+    background-color: #ddd;
 }
 
 .attendance__status--on_break {
-    color: #FF9800;
+    color: #666;
+    background-color: #ddd;
 }
 
 .attendance__status--left {
-    color: #9E9E9E;
+    color: #666;
+    background-color: #ddd;
 }
 
 .attendance__date {
-    font-size: 32px;
+    font-size: 24px;
     font-weight: bold;
     margin-bottom: 5px;
+    color: #333;
 }
 
 .attendance__time {
-    font-size: 48px;
+    font-size: 64px;
     font-weight: bold;
     margin-bottom: 40px;
     color: #333;
@@ -187,10 +195,10 @@ a {
 }
 
 .attendance__button {
-    padding: 15px 40px;
+    padding: 15px 60px;
     font-size: 18px;
     border: none;
-    border-radius: 8px;
+    border-radius: 40px;
     cursor: pointer;
     min-width: 150px;
 }
@@ -201,18 +209,20 @@ a {
 }
 
 .attendance__button--clock-out {
-    background-color: #e74c3c;
+    background-color: #333;
     color: #fff;
 }
 
 .attendance__button--rest-start {
-    background-color: #FF9800;
-    color: #fff;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #333;
 }
 
 .attendance__button--rest-end {
-    background-color: #4CAF50;
-    color: #fff;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #333;
 }
 
 .attendance__button:disabled {
@@ -227,15 +237,13 @@ a {
 
 .attendance__message {
     font-size: 20px;
-    color: #666;
+    color: #333;
     margin-top: 20px;
 }
 
 /* Table */
 .table-container {
     background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
@@ -263,7 +271,8 @@ a {
 }
 
 .table__link {
-    color: #2196F3;
+    color: #333;
+    font-weight: bold;
 }
 
 .table__link:hover {
@@ -280,7 +289,10 @@ a {
 
 .page-header__title {
     font-size: 24px;
+    font-weight: bold;
     color: #333;
+    border-left: 3px solid #333;
+    padding-left: 12px;
 }
 
 /* Month/Date Navigation */
@@ -293,13 +305,13 @@ a {
 }
 
 .date-nav__arrow {
-    font-size: 18px;
+    font-size: 14px;
     color: #333;
     padding: 5px 10px;
 }
 
 .date-nav__arrow:hover {
-    color: #2196F3;
+    color: #666;
 }
 
 .date-nav__current {
@@ -338,23 +350,24 @@ a {
 /* Detail Form */
 .detail {
     background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 30px;
     max-width: 800px;
     margin: 0 auto;
 }
 
 .detail__title {
-    font-size: 20px;
+    font-size: 24px;
+    font-weight: bold;
     margin-bottom: 20px;
-    text-align: center;
+    text-align: left;
+    border-left: 3px solid #333;
+    padding-left: 12px;
 }
 
 .detail__row {
     display: flex;
     align-items: center;
-    padding: 12px 0;
+    padding: 15px 0;
     border-bottom: 1px solid #eee;
 }
 
@@ -368,6 +381,9 @@ a {
 .detail__value {
     flex: 1;
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .detail__input {
@@ -376,6 +392,7 @@ a {
     border-radius: 4px;
     font-size: 14px;
     width: 120px;
+    text-align: center;
 }
 
 .detail__input:focus {
@@ -394,12 +411,12 @@ a {
 }
 
 .detail__actions {
-    text-align: center;
+    text-align: right;
     margin-top: 30px;
 }
 
 .detail__button {
-    padding: 10px 40px;
+    padding: 12px 40px;
     background-color: #333;
     color: #fff;
     border: none;
@@ -413,7 +430,7 @@ a {
 }
 
 .detail__button:disabled {
-    background-color: #ccc;
+    background-color: #999;
     cursor: not-allowed;
 }
 
@@ -462,8 +479,8 @@ a {
 
 /* CSV Export Button */
 .export-button {
-    padding: 8px 20px;
-    background-color: #4CAF50;
+    padding: 10px 24px;
+    background-color: #333;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -474,13 +491,14 @@ a {
 }
 
 .export-button:hover {
-    background-color: #45a049;
+    background-color: #555;
+    color: #fff;
 }
 
 /* Approve Button */
 .approve-button {
     padding: 6px 20px;
-    background-color: #2196F3;
+    background-color: #333;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -489,7 +507,12 @@ a {
 }
 
 .approve-button:hover {
-    background-color: #1976D2;
+    background-color: #555;
+}
+
+.approve-button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
 }
 
 /* Rest row separator */
@@ -515,4 +538,59 @@ a {
 .badge--approved {
     background-color: #E8F5E9;
     color: #2E7D32;
+}
+
+/* Correction Detail */
+.correction-detail {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 30px;
+}
+
+.correction-detail__title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: left;
+    border-left: 3px solid #333;
+    padding-left: 12px;
+}
+
+.correction-detail__section {
+    margin-bottom: 24px;
+}
+
+.correction-detail__section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.correction-detail__row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.correction-detail__label {
+    width: 150px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+}
+
+.correction-detail__value {
+    flex: 1;
+    font-size: 14px;
+    color: #333;
+}
+
+.correction-detail__actions {
+    margin-top: 28px;
+    text-align: right;
 }

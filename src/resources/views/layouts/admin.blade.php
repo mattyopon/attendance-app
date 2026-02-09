@@ -15,10 +15,9 @@
 
         body {
             font-family: 'Segoe UI', 'Helvetica Neue', Arial, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
-            background-color: #f5f7fa;
+            background-color: #eee;
             color: #333;
             line-height: 1.6;
-            min-width: 1400px;
         }
 
         a {
@@ -32,7 +31,7 @@
 
         /* Header */
         .header {
-            background-color: #0f172a;
+            background-color: #111;
             color: #fff;
             display: flex;
             align-items: center;
@@ -60,7 +59,7 @@
         }
 
         .header__nav a {
-            color: #cbd5e1;
+            color: #fff;
             font-size: 14px;
             font-weight: 500;
             padding: 8px 4px;
@@ -70,23 +69,22 @@
         .header__nav a:hover {
             color: #fff;
             text-decoration: none;
+            opacity: 0.8;
         }
 
         .header__nav .nav-logout-btn {
             background: transparent;
-            border: 1px solid rgba(255,255,255,0.4);
-            color: #cbd5e1;
+            border: none;
+            color: #fff;
             font-size: 14px;
             font-weight: 500;
-            padding: 6px 16px;
-            border-radius: 4px;
+            padding: 8px 4px;
             cursor: pointer;
-            transition: background 0.15s, color 0.15s;
+            transition: opacity 0.15s;
         }
 
         .header__nav .nav-logout-btn:hover {
-            background: rgba(255,255,255,0.15);
-            color: #fff;
+            opacity: 0.8;
         }
 
         /* Main */
@@ -128,6 +126,8 @@
             font-size: 24px;
             font-weight: 700;
             color: #1e293b;
+            border-left: 3px solid #333;
+            padding-left: 12px;
         }
 
         /* Date Navigation */
@@ -140,18 +140,17 @@
         }
 
         .date-nav__arrow {
-            color: #2563eb;
+            color: #333;
             font-size: 14px;
             font-weight: 500;
             padding: 6px 12px;
-            border: 1px solid #2563eb;
+            border: none;
             border-radius: 4px;
-            transition: background 0.15s;
+            transition: color 0.15s;
         }
 
         .date-nav__arrow:hover {
-            background-color: #2563eb;
-            color: #fff;
+            color: #666;
             text-decoration: none;
         }
 
@@ -181,13 +180,14 @@
         }
 
         .tabs__item:hover {
-            color: #2563eb;
+            color: #333;
             text-decoration: none;
         }
 
         .tabs__item--active {
-            color: #2563eb;
-            border-bottom-color: #2563eb;
+            color: #333;
+            font-weight: bold;
+            border-bottom-color: #333;
         }
 
         /* Table */
@@ -205,15 +205,13 @@
         }
 
         .table th {
-            background-color: #f1f5f9;
-            color: #475569;
+            background-color: #f8f8f8;
+            color: #555;
             font-size: 13px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
             padding: 12px 16px;
             text-align: left;
-            border-bottom: 2px solid #e2e8f0;
+            border-bottom: 1px solid #eee;
         }
 
         .table td {
@@ -223,17 +221,13 @@
             border-bottom: 1px solid #f1f5f9;
         }
 
-        .table tbody tr:nth-child(even) {
-            background-color: #f8fafc;
-        }
-
         .table tbody tr:hover {
-            background-color: #eff6ff;
+            background-color: #fafafa;
         }
 
         .table__link {
-            color: #2563eb;
-            font-weight: 500;
+            color: #333;
+            font-weight: bold;
         }
 
         /* Badge */
@@ -341,7 +335,7 @@
             padding: 10px 14px;
             font-size: 14px;
             border: 1px solid #d1d5db;
-            border-radius: 6px;
+            border-radius: 4px;
             background: #fff;
             color: #333;
             transition: border-color 0.15s;
@@ -350,7 +344,6 @@
         .form__input:focus {
             outline: none;
             border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
         }
 
         .form__button {
@@ -359,7 +352,7 @@
             font-size: 16px;
             font-weight: 600;
             color: #fff;
-            background-color: #0f172a;
+            background-color: #333;
             border: none;
             border-radius: 6px;
             cursor: pointer;
@@ -368,7 +361,7 @@
         }
 
         .form__button:hover {
-            background-color: #1e293b;
+            background-color: #555;
         }
 
         .form__error {
@@ -383,8 +376,7 @@
             margin: 0 auto;
             background: #fff;
             padding: 32px 40px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-radius: 0;
         }
 
         .detail__title {
@@ -392,7 +384,9 @@
             font-weight: 700;
             color: #1e293b;
             margin-bottom: 28px;
-            text-align: center;
+            text-align: left;
+            border-left: 3px solid #333;
+            padding-left: 12px;
         }
 
         .detail__row {
@@ -431,7 +425,6 @@
         .detail__input:focus {
             outline: none;
             border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
         }
 
         .detail__input:disabled {
@@ -453,7 +446,6 @@
         .detail__textarea:focus {
             outline: none;
             border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
         }
 
         .detail__textarea:disabled {
@@ -463,7 +455,7 @@
 
         .detail__actions {
             margin-top: 28px;
-            text-align: center;
+            text-align: right;
         }
 
         .detail__button {
@@ -471,7 +463,7 @@
             font-size: 15px;
             font-weight: 600;
             color: #fff;
-            background-color: #2563eb;
+            background-color: #333;
             border: none;
             border-radius: 6px;
             cursor: pointer;
@@ -479,7 +471,7 @@
         }
 
         .detail__button:hover {
-            background-color: #1d4ed8;
+            background-color: #555;
         }
 
         .detail__button:disabled {
@@ -494,13 +486,13 @@
             font-size: 14px;
             font-weight: 600;
             color: #fff;
-            background-color: #059669;
+            background-color: #333;
             border-radius: 6px;
             transition: background-color 0.15s;
         }
 
         .export-button:hover {
-            background-color: #047857;
+            background-color: #555;
             text-decoration: none;
         }
 
@@ -510,7 +502,7 @@
             font-size: 13px;
             font-weight: 600;
             color: #fff;
-            background-color: #2563eb;
+            background-color: #333;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -518,11 +510,11 @@
         }
 
         .approve-button:hover {
-            background-color: #1d4ed8;
+            background-color: #555;
         }
 
         .approve-button:disabled {
-            background-color: #94a3b8;
+            background-color: #999;
             cursor: not-allowed;
         }
 
@@ -551,10 +543,10 @@
         .correction-detail__section-title {
             font-size: 16px;
             font-weight: 600;
-            color: #1e40af;
+            color: #333;
             margin-bottom: 12px;
             padding-bottom: 8px;
-            border-bottom: 2px solid #dbeafe;
+            border-bottom: 1px solid #eee;
         }
 
         .correction-detail__row {
@@ -586,12 +578,12 @@
 </head>
 <body>
     <header class="header">
-        <a href="/admin/attendance/list" class="header__logo">勤怠管理アプリ</a>
+        <a href="/admin/attendance/list" class="header__logo"><img src="{{ asset('img/logo.png') }}" alt="COACHTECH" height="20"></a>
         @auth
         <nav class="header__nav">
             <a href="{{ route('admin.attendance.list') }}">勤怠一覧</a>
             <a href="{{ route('admin.staff.list') }}">スタッフ一覧</a>
-            <a href="{{ route('admin.stamp_correction.list') }}">申請一覧</a>
+            <a href="{{ route('stamp_correction.list') }}">申請一覧</a>
             <form action="{{ route('admin.logout') }}" method="POST" style="display:inline;">
                 @csrf
                 <button type="submit" class="nav-logout-btn">ログアウト</button>

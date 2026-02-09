@@ -9,7 +9,7 @@
 
 <div class="date-nav">
     <a href="{{ route('attendance.list', ['month' => $prevMonth]) }}" class="date-nav__arrow">&lt; 前月</a>
-    <span class="date-nav__current">{{ $date->format('Y年m月') }}</span>
+    <span class="date-nav__current">📅 {{ $date->format('Y/m') }}</span>
     <a href="{{ route('attendance.list', ['month' => $nextMonth]) }}" class="date-nav__arrow">翌月 &gt;</a>
 </div>
 

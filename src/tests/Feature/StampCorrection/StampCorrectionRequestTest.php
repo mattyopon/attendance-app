@@ -46,7 +46,7 @@ class StampCorrectionRequestTest extends TestCase
         $user = $this->createUser();
         $attendance = $this->createAttendance($user);
 
-        $response = $this->actingAs($user)->post('/attendance/' . $attendance->id . '/correction', [
+        $response = $this->actingAs($user)->post('/attendance/detail/' . $attendance->id . '/correction', [
             'clock_in' => '09:30',
             'clock_out' => '18:30',
             'reason' => '打刻忘れのため修正',
@@ -70,7 +70,7 @@ class StampCorrectionRequestTest extends TestCase
         $user = $this->createUser();
         $attendance = $this->createAttendance($user);
 
-        $response = $this->actingAs($user)->post('/attendance/' . $attendance->id . '/correction', [
+        $response = $this->actingAs($user)->post('/attendance/detail/' . $attendance->id . '/correction', [
             'clock_in' => '09:00',
             'clock_out' => '18:00',
             'reason' => '',
@@ -91,7 +91,7 @@ class StampCorrectionRequestTest extends TestCase
         $attendance = $this->createAttendance($user);
 
         // 出勤 > 退勤の不正なケース
-        $response = $this->actingAs($user)->post('/attendance/' . $attendance->id . '/correction', [
+        $response = $this->actingAs($user)->post('/attendance/detail/' . $attendance->id . '/correction', [
             'clock_in' => '18:00',
             'clock_out' => '09:00',
             'reason' => 'テスト修正',
@@ -123,7 +123,7 @@ class StampCorrectionRequestTest extends TestCase
         ]);
 
         // 二重申請を試みる
-        $response = $this->actingAs($user)->post('/attendance/' . $attendance->id . '/correction', [
+        $response = $this->actingAs($user)->post('/attendance/detail/' . $attendance->id . '/correction', [
             'clock_in' => '10:00',
             'clock_out' => '19:00',
             'reason' => '重複申請',
@@ -140,7 +140,7 @@ class StampCorrectionRequestTest extends TestCase
         $user = $this->createUser();
         $attendance = $this->createAttendance($user);
 
-        $response = $this->actingAs($user)->post('/attendance/' . $attendance->id . '/correction', [
+        $response = $this->actingAs($user)->post('/attendance/detail/' . $attendance->id . '/correction', [
             'clock_in' => '09:00',
             'clock_out' => '18:00',
             'rests' => [
@@ -163,7 +163,7 @@ class StampCorrectionRequestTest extends TestCase
         $user = $this->createUser();
         $attendance = $this->createAttendance($user);
 
-        $response = $this->actingAs($user)->post('/attendance/' . $attendance->id . '/correction', [
+        $response = $this->actingAs($user)->post('/attendance/detail/' . $attendance->id . '/correction', [
             'clock_in' => '09:00',
             'clock_out' => '18:00',
             'rests' => [
@@ -200,6 +200,30 @@ class StampCorrectionRequestTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('打刻修正テスト');
+    }
+
+    /**
+     * R44: 修正申請一覧の「詳細」を押下すると勤怠詳細画面に遷移する
+     */
+    public function test_correction_list_detail_links_to_attendance_detail(): void
+    {
+        $user = $this->createUser();
+        $attendance = $this->createAttendance($user);
+
+        StampCorrectionRequest::create([
+            'user_id' => $user->id,
+            'attendance_id' => $attendance->id,
+            'request_date' => $attendance->date,
+            'requested_clock_in' => Carbon::yesterday()->setTime(9, 30, 0),
+            'requested_clock_out' => Carbon::yesterday()->setTime(18, 30, 0),
+            'reason' => '詳細リンクテスト',
+            'status' => StampCorrectionRequest::STATUS_PENDING,
+        ]);
+
+        $response = $this->actingAs($user)->get('/stamp_correction_request/list');
+
+        $response->assertStatus(200);
+        $response->assertSee(route('attendance.show', $attendance->id));
     }
 
     /**

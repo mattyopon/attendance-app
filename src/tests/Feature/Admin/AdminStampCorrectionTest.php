@@ -69,7 +69,7 @@ class AdminStampCorrectionTest extends TestCase
         $user = $this->createUser();
         $this->createCorrectionRequest($user);
 
-        $response = $this->actingAs($admin)->get('/admin/stamp_correction_request/list');
+        $response = $this->actingAs($admin)->get('/stamp_correction_request/list');
 
         $response->assertStatus(200);
         $response->assertSee('テスト修正申請');
@@ -84,9 +84,9 @@ class AdminStampCorrectionTest extends TestCase
         $user = $this->createUser();
         $correction = $this->createCorrectionRequest($user);
 
-        $response = $this->actingAs($admin)->put('/admin/stamp_correction_request/' . $correction->id . '/approve');
+        $response = $this->actingAs($admin)->put('/stamp_correction_request/approve/' . $correction->id);
 
-        $response->assertRedirect(route('admin.stamp_correction.list'));
+        $response->assertRedirect(route('stamp_correction.list'));
 
         $correction->refresh();
         $this->assertEquals(StampCorrectionRequest::STATUS_APPROVED, $correction->status);
@@ -103,7 +103,7 @@ class AdminStampCorrectionTest extends TestCase
         $correction = $this->createCorrectionRequest($user);
         $attendanceId = $correction->attendance_id;
 
-        $this->actingAs($admin)->put('/admin/stamp_correction_request/' . $correction->id . '/approve');
+        $this->actingAs($admin)->put('/stamp_correction_request/approve/' . $correction->id);
 
         $attendance = Attendance::find($attendanceId);
         $this->assertEquals('09:30', $attendance->clock_in->format('H:i'));
@@ -119,12 +119,47 @@ class AdminStampCorrectionTest extends TestCase
         $anotherUser = $this->createUser();
         $correction = $this->createCorrectionRequest($anotherUser);
 
-        $response = $this->actingAs($user)->put('/admin/stamp_correction_request/' . $correction->id . '/approve');
+        $response = $this->actingAs($user)->put('/stamp_correction_request/approve/' . $correction->id);
 
         $response->assertRedirect('/admin/login');
 
         // ステータスは変わっていないこと
         $correction->refresh();
         $this->assertEquals(StampCorrectionRequest::STATUS_PENDING, $correction->status);
+    }
+
+    /**
+     * R60: 承認済みの修正申請が全て表示されている
+     */
+    public function test_admin_can_view_approved_corrections(): void
+    {
+        $admin = $this->createAdmin();
+        $user = $this->createUser(['name' => '承認テストユーザー']);
+
+        $correction = $this->createCorrectionRequest($user, StampCorrectionRequest::STATUS_APPROVED);
+
+        $response = $this->actingAs($admin)->get('/stamp_correction_request/list?tab=approved');
+
+        $response->assertStatus(200);
+        $response->assertSee('承認テストユーザー');
+        $response->assertSee('テスト修正申請');
+    }
+
+    /**
+     * R61: 修正申請の詳細内容が正しく表示されている
+     */
+    public function test_admin_can_view_correction_detail(): void
+    {
+        $admin = $this->createAdmin();
+        $user = $this->createUser(['name' => '詳細テストユーザー']);
+        $correction = $this->createCorrectionRequest($user);
+
+        $response = $this->actingAs($admin)->get('/stamp_correction_request/approve/' . $correction->id);
+
+        $response->assertStatus(200);
+        $response->assertSee('詳細テストユーザー');
+        $response->assertSee('09:30');
+        $response->assertSee('18:30');
+        $response->assertSee('テスト修正申請');
     }
 }

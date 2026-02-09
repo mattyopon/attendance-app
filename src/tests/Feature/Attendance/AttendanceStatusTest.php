@@ -47,6 +47,7 @@ class AttendanceStatusTest extends TestCase
         $response = $this->actingAs($user)->get('/attendance');
 
         $response->assertStatus(200);
+        $response->assertSee('勤務外');
         $response->assertSee('出勤');
     }
 
@@ -63,6 +64,7 @@ class AttendanceStatusTest extends TestCase
         $response = $this->actingAs($user)->get('/attendance');
 
         $response->assertStatus(200);
+        $response->assertSee('出勤中');
         $response->assertSee('退勤');
         $response->assertSee('休憩入');
     }
@@ -85,6 +87,7 @@ class AttendanceStatusTest extends TestCase
         $response = $this->actingAs($user)->get('/attendance');
 
         $response->assertStatus(200);
+        $response->assertSee('休憩中');
         $response->assertSee('休憩戻');
     }
 
@@ -102,6 +105,7 @@ class AttendanceStatusTest extends TestCase
         $response = $this->actingAs($user)->get('/attendance');
 
         $response->assertStatus(200);
+        $response->assertSee('退勤済');
         $response->assertSee('お疲れ様でした。');
     }
 }

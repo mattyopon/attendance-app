@@ -60,6 +60,9 @@ class StampCorrectionFormRequest extends FormRequest
                     if ($clockIn && $restStart < $clockIn) {
                         $validator->errors()->add("rests.{$index}.rest_start", '休憩時間が不適切な値です');
                     }
+                    if ($clockOut && $restStart >= $clockOut) {
+                        $validator->errors()->add("rests.{$index}.rest_start", '休憩時間が不適切な値です');
+                    }
                     if ($clockOut && $restEnd > $clockOut) {
                         $validator->errors()->add("rests.{$index}.rest_end", '休憩時間もしくは退勤時間が不適切な値です');
                     }
